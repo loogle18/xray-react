@@ -1,0 +1,19 @@
+{
+  "name": "xray-react",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/loogle18/xray-react.git"
+  },
+  "author": "Sviatoslav Medvid <sviat.minato@gmail.com> (https://github.com/loogle18)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/loogle18/xray-react/issues"
+  },
+  "homepage": "https://github.com/loogle18/xray-react#readme"
+}
