@@ -1,6 +1,6 @@
 const css = require('./css');
 
-const styleTag = `<style>${css}</style>`;
+const styleTag = `<style class="xray-react-style-tag">${css}</style>`;
 const actionBar = `
   <div class="xray-react-action-bar">
     <div class="xray-react-actions-wrapper">

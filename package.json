@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node index.js"
+    "dev": "node index.js",
+    "build": "rollup -c"
   },
   "keywords": [
     "react",
@@ -30,6 +31,8 @@
     "babel-core": "^6.26.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
-    "react": "^16.2.0"
+    "react": "^16.2.0",
+    "rollup": "^0.59.3",
+    "rollup-plugin-commonjs": "^8.3.0"
   }
 }
