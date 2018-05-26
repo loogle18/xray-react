@@ -1,9 +1,6 @@
 const constants = require('./constants');
 const partials = require('./partials');
-const { memoize } = require('./utils');
 
-
-const getWindowScroll = memoize(() => Object({ x: window.scrollX, y: window.scrollY }));
 
 const handleSearchChange = function(event) {
   let value = event.target.value.toLowerCase();
