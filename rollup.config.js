@@ -1,7 +1,7 @@
 import commonjs from 'rollup-plugin-commonjs';
 
 export default {
-  input: 'src/xray-react-ui.js',
+  input: 'lib/xray-react-ui.js',
   output: {
     file: 'build/xray-react-ui.min.js',
     format: 'iife',
