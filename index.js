@@ -1,7 +1,5 @@
-const { enableXrayReact } = require('./src/ui-utils');
-const { XrayReactPlugin } = require('./src/plugins');
+const { XrayReactPlugin } = require('./lib/plugins');
 
 module.exports = {
-  enableXrayReact,
   XrayReactPlugin
 };
