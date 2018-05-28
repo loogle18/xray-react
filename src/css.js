@@ -4,6 +4,8 @@ module.exports = `
   }
   .xray-react-elements-wrapper {
     bottom: 0;
+    font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-style: normal;
     left: 0;
     position: absolute;
     right: 0;
@@ -69,6 +71,8 @@ module.exports = `
   .xray-react-actions-wrapper {
     align-items: center;
     display: flex;
+    font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-style: normal;
     height: inherit;
     max-width: 1200px;
   }
