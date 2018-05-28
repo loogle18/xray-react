@@ -35,17 +35,13 @@ const searchAndCreateComponent = function(elem) {
   for (const key of Object.keys(elem)) {
     if (key.startsWith('__reactInternalInstance$')) {
       let fiberNode = elem[key];
-      let fiber;
-      let componentName;
       if (fiberNode._currentElement) {
-        fiber = fiberNode._currentElement._owner && fiberNode._currentElement._owner._instance;
-        componentName = fiber && fiber.constructor.name;
+        let fiber = fiberNode._currentElement._owner && fiberNode._currentElement._owner._instance;
+        if (fiber) return createElemForComponent(elem, fiber.constructor.name);
       } else {
-        fiber = fiberNode.return && fiberNode.return.stateNode && fiberNode.return.stateNode._reactInternalFiber;
-        componentName = fiber && fiber.type.name;
+        let fiber = fiberNode.return && fiberNode.return.stateNode && fiberNode.return.stateNode._reactInternalFiber;
+        if (fiber) return createElemForComponent(elem, fiber.type.name);
       }
-
-      if (fiber) return createElemForComponent(elem, componentName);
     }
   }
   return null;
