@@ -1,4 +1,5 @@
 # X-Ray React
+React layout debugger inspired by [Xray-rails](https://github.com/brentd/xray-rails)
 
 ## Usage
 
