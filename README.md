@@ -17,6 +17,8 @@ if(env.development) {
     plugins.push(new XrayReactPlugin());
 }
 ```
+Arguments
+- `output` -  name of output filename, default is 'bundle.js' or first available asset.
 
 #### As a module:
 ```javascript

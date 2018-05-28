@@ -1,7 +1,7 @@
 {
   "name": "xray-react",
-  "version": "0.3.0",
-  "description": "",
+  "version": "0.3.1",
+  "description": "React layout debugger inspired by Xray-rails.",
   "main": "index.js",
   "scripts": {
     "dev": "node index.js",
@@ -23,7 +23,7 @@
     "url": "git+https://github.com/loogle18/xray-react.git"
   },
   "author": "Sviatoslav Medvid <sviat.minato@gmail.com> (https://github.com/loogle18)",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/loogle18/xray-react/issues"
   },
