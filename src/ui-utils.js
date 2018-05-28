@@ -15,27 +15,37 @@ const handleSearchChange = function(event) {
   }
 };
 
-const createElemForComponent = function(elem) {
+const createElemForComponent = function(elem, componentName) {
+  let xrayReactElem = document.createElement('div');
+  let boundingClientRect = elem.getBoundingClientRect();
+  xrayReactElem.className = constants.xrayReactElemClassName;
+  xrayReactElem.setAttribute('data-xray-react-element-name', componentName);
+  xrayReactElem.setAttribute('data-xray-react-element-search-name', componentName.toLowerCase());
+  xrayReactElem.style.height = boundingClientRect.height + 'px';
+  xrayReactElem.style.width = boundingClientRect.width + 'px';
+  xrayReactElem.style.top = boundingClientRect.top + window.scrollY + 'px';
+  xrayReactElem.style.right = boundingClientRect.right + window.scrollX + 'px';
+  xrayReactElem.style.bottom = boundingClientRect.bottom - window.scrollY + 'px';
+  xrayReactElem.style.left = boundingClientRect.left - window.scrollX + 'px';
+  xrayReactElem.style.zIndex = constants.zIndex;
+  return xrayReactElem;
+}
+
+const searchAndCreateComponent = function(elem) {
   for (const key of Object.keys(elem)) {
     if (key.startsWith('__reactInternalInstance$')) {
       let fiberNode = elem[key];
-      let fiber = fiberNode && fiberNode.return && fiberNode.return.stateNode && fiberNode.return.stateNode._reactInternalFiber;
-      if (fiber) {
-        let componentName = fiber.type.name;
-        let xrayReactElem = document.createElement('div');
-        let boundingClientRect = elem.getBoundingClientRect();
-        xrayReactElem.className = constants.xrayReactElemClassName;
-        xrayReactElem.setAttribute('data-xray-react-element-name', componentName);
-        xrayReactElem.setAttribute('data-xray-react-element-search-name', componentName.toLowerCase());
-        xrayReactElem.style.height = boundingClientRect.height + 'px';
-        xrayReactElem.style.width = boundingClientRect.width + 'px';
-        xrayReactElem.style.top = boundingClientRect.top + window.scrollY + 'px';
-        xrayReactElem.style.right = boundingClientRect.right + window.scrollX + 'px';
-        xrayReactElem.style.bottom = boundingClientRect.bottom - window.scrollY + 'px';
-        xrayReactElem.style.left = boundingClientRect.left - window.scrollX + 'px';
-        xrayReactElem.style.zIndex = constants.zIndex;
-        return xrayReactElem;
+      let fiber;
+      let componentName;
+      if (fiberNode._currentElement) {
+        fiber = fiberNode._currentElement._owner && fiberNode._currentElement._owner._instance;
+        componentName = fiber && fiber.constructor.name;
+      } else {
+        fiber = fiberNode.return && fiberNode.return.stateNode && fiberNode.return.stateNode._reactInternalFiber;
+        componentName = fiber && fiber.type.name;
       }
+
+      if (fiber) return createElemForComponent(elem, componentName);
     }
   }
   return null;
@@ -55,7 +65,7 @@ const toggleXrayReact = function(enable) {
     body.classList.add('xray-react-enabled');
     let xrayReactElements = [];
     for (let elem of body.getElementsByTagName('*')) {
-      let xrayReactElem = createElemForComponent(elem);
+      let xrayReactElem = searchAndCreateComponent(elem);
       if (xrayReactElem) xrayReactElements.push(xrayReactElem);
     }
     let xrayReactElementsWrapper = document.createElement('div');
@@ -90,6 +100,6 @@ const enableXrayReact = function() {
 };
 
 module.exports = {
-  createElemForComponent,
+  searchAndCreateComponent,
   enableXrayReact
 };
