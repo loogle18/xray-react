@@ -1,6 +1,11 @@
 # X-Ray React
 React layout debugger inspired by [Xray-rails](https://github.com/brentd/xray-rails)
 
+#### Suppoted versions:
+React: 15.x.x, 16.x.x
+
+Webpack: 2.x.x, 3.x.x
+
 ## Usage
 
 #### As a plugin for webpack:
