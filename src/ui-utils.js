@@ -29,22 +29,33 @@ const createElemForComponent = function(elem, componentName) {
   xrayReactElem.style.left = boundingClientRect.left - window.scrollX + 'px';
   xrayReactElem.style.zIndex = constants.zIndex;
   return xrayReactElem;
-}
+};
 
-const searchAndCreateComponent = function(elem) {
-  for (const key of Object.keys(elem)) {
-    if (key.startsWith('__reactInternalInstance$')) {
-      let fiberNode = elem[key];
-      if (fiberNode._currentElement) {
-        let fiber = fiberNode._currentElement._owner && fiberNode._currentElement._owner._instance;
-        if (fiber) return createElemForComponent(elem, fiber.constructor.name);
-      } else {
-        let fiber = fiberNode.return && fiberNode.return.stateNode && fiberNode.return.stateNode._reactInternalFiber;
-        if (fiber) return createElemForComponent(elem, fiber.type.name);
+const searchAndCreateComponentCached = function() {
+  let uids = [];
+  return function(...args) {
+    let elem = args[0];
+    for (const key of Object.keys(elem)) {
+      if (key.startsWith('__reactInternalInstance$')) {
+        let fiberNode = elem[key];
+        if (fiberNode._currentElement) {
+          let owner = fiberNode._currentElement._owner;
+          let fiber = owner && owner._instance;
+          if (fiber) {
+            let uid = `${owner._mountIndex}${owner._mountOrder}`;
+            if (!uids.includes(uid)) {
+              uids.push(uid);
+              return createElemForComponent(elem, fiber.constructor.name);
+            }
+          }
+        } else {
+          let fiber = fiberNode.return && fiberNode.return.stateNode && fiberNode.return.stateNode._reactInternalFiber;
+          if (fiber) return createElemForComponent(elem, fiber.type.name);
+        }
       }
     }
-  }
-  return null;
+    return null;
+  };
 };
 
 const toggleXrayReact = function(enable) {
@@ -60,6 +71,7 @@ const toggleXrayReact = function(enable) {
   } else {
     body.classList.add('xray-react-enabled');
     let xrayReactElements = [];
+    let searchAndCreateComponent = searchAndCreateComponentCached();
     for (let elem of body.getElementsByTagName('*')) {
       let xrayReactElem = searchAndCreateComponent(elem);
       if (xrayReactElem) xrayReactElements.push(xrayReactElem);
@@ -96,6 +108,5 @@ const enableXrayReact = function() {
 };
 
 module.exports = {
-  searchAndCreateComponent,
   enableXrayReact
 };
