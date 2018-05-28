@@ -1,4 +1,7 @@
 module.exports = `
+  .xray-react-enabled {
+    margin-bottom: 50px !important;
+  }
   .xray-react-elements-wrapper {
     bottom: 0;
     left: 0;
@@ -56,9 +59,12 @@ module.exports = `
   }
   .xray-react-action-bar {
     background-color: darkblue;
+    bottom: 0;
     height: 50px;
     padding: 0 10px;
-    position: relative;
+    position: fixed;
+    width: 100vw;
+    z-index: 999999;
   }
   .xray-react-actions-wrapper {
     align-items: center;
