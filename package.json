@@ -1,12 +1,15 @@
 {
   "name": "xray-react",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "React layout debugger inspired by Xray-rails.",
   "main": "index.js",
   "scripts": {
     "dev": "node index.js",
     "build": "rollup -c",
     "publish": "rollup -c"
+  },
+  "engines": {
+    "node": ">=6.0.0"
   },
   "keywords": [
     "react",
@@ -16,7 +19,9 @@
     "inspector",
     "development",
     "style",
-    "css"
+    "css",
+    "layout",
+    "debug"
   ],
   "repository": {
     "type": "git",

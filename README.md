@@ -6,6 +6,10 @@ React: 15.x.x, 16.x.x
 
 Webpack: 2.x.x, 3.x.x
 
+## Installation
+
+`npm install xray-react`
+
 ## Usage
 
 #### As a plugin for webpack:
