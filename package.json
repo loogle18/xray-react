@@ -40,5 +40,8 @@
     "react": "^16.2.0",
     "rollup": "^0.59.3",
     "rollup-plugin-commonjs": "^8.3.0"
+  },
+  "dependencies": {
+    "socket.io": "^2.1.1"
   }
 }

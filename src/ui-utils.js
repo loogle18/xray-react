@@ -5,7 +5,7 @@ const partials = require('./partials');
 const handleSearchChange = function(event) {
   let value = event.target.value.toLowerCase();
   let regExp = new RegExp(`^${value}|${value}$`);
-  for (let elem of document.querySelectorAll(`.xray-react-element`)) {
+  for (let elem of document.querySelectorAll(`.${constants.xrayReactElemCN}`)) {
     elem.classList.add('-highlighted');
     if (value.length >= 2 && elem.getAttribute('data-xray-react-element-search-name').match(regExp)) {
       elem.classList.add('-highlighted');
@@ -18,7 +18,7 @@ const handleSearchChange = function(event) {
 const createElemForComponent = function(elem, componentName) {
   let xrayReactElem = document.createElement('div');
   let boundingClientRect = elem.getBoundingClientRect();
-  xrayReactElem.className = constants.xrayReactElemClassName;
+  xrayReactElem.className = constants.xrayReactElemCN;
   xrayReactElem.setAttribute('data-xray-react-element-name', componentName);
   xrayReactElem.setAttribute('data-xray-react-element-search-name', componentName.toLowerCase());
   xrayReactElem.style.height = boundingClientRect.height + 'px';
@@ -62,7 +62,7 @@ const toggleXrayReact = function(enable) {
   let body = document.body;
   if (body.classList.contains('xray-react-enabled')) {
     body.classList.remove('xray-react-enabled');
-    let xrayReactElementsWrapper = document.querySelector('.xray-react-elements-wrapper');
+    let xrayReactElementsWrapper = document.querySelector(`.${constants.xrayReactWrapperCN}`);
     let xrayReactActionBar = document.querySelector('.xray-react-action-bar');
     let xrayReactStyleTag = document.querySelector('.xray-react-style-tag');
     if (xrayReactElementsWrapper) xrayReactElementsWrapper.remove();
@@ -77,7 +77,7 @@ const toggleXrayReact = function(enable) {
       if (xrayReactElem) xrayReactElements.push(xrayReactElem);
     }
     let xrayReactElementsWrapper = document.createElement('div');
-    xrayReactElementsWrapper.className = 'xray-react-elements-wrapper';
+    xrayReactElementsWrapper.className = constants.xrayReactWrapperCN;
     xrayReactElementsWrapper.append(...xrayReactElements);
     body.append(xrayReactElementsWrapper);
     document.head.insertAdjacentHTML('beforeend', partials.styleTag);
