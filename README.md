@@ -34,7 +34,7 @@ Environment variables:
 
 Arguments
 - `output` - (string) name of output filename. Default is **'bundle.js'** or **first available asset**.
-- `server` - (boolean) flag that specifies whether or not to run server for handling files opening on component click. Default is **true**. _If this option is set to true, please be sure you have exported 'XRAY_REACT_EDITOR' env variable._
+- `server` - (boolean) flag that specifies whether or not to run server for handling files opening on component click. Default is **true**. _If this option is set to true, please be sure you have exported 'XRAY_REACT_EDITOR' env variable, otherwise files will open in default program._
 - `sourcePath` - (string) absolute path to internal sources like components etc (e.g. `/home/user/project/client/src`). Default is **compilation context**.
 
 
