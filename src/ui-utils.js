@@ -28,35 +28,66 @@ const createElemForComponent = function(elem, componentName) {
   xrayReactElem.style.bottom = boundingClientRect.bottom - window.scrollY + 'px';
   xrayReactElem.style.left = boundingClientRect.left - window.scrollX + 'px';
   xrayReactElem.style.zIndex = constants.zIndex;
-  return xrayReactElem;
+  return { elem, xrayReactElem };
+};
+
+const getComponentObj = function(elem) {
+  for (const key of Object.keys(elem)) {
+    if (key.startsWith('__reactInternalInstance$')) {
+      let fiberNode = elem[key];
+      if (fiberNode._currentElement) {
+        let owner = fiberNode._currentElement._owner;
+        let fiber = owner && owner._instance;
+        if (fiber) {
+          return { name: fiber.constructor.name, uid: `${owner._mountIndex}${owner._mountOrder}` };
+        }
+      } else {
+        let fiber = fiberNode.return && fiberNode.return.stateNode && fiberNode.return.stateNode._reactInternalFiber;
+        if (fiber) return { name: fiber.type.name };
+      }
+    }
+  }
+  return {};
 };
 
 const searchAndCreateComponentCached = function() {
   let uids = [];
   return function(...args) {
     let elem = args[0];
-    for (const key of Object.keys(elem)) {
-      if (key.startsWith('__reactInternalInstance$')) {
-        let fiberNode = elem[key];
-        if (fiberNode._currentElement) {
-          let owner = fiberNode._currentElement._owner;
-          let fiber = owner && owner._instance;
-          if (fiber) {
-            let uid = `${owner._mountIndex}${owner._mountOrder}`;
-            if (!uids.includes(uid)) {
-              uids.push(uid);
-              return createElemForComponent(elem, fiber.constructor.name);
-            }
-          }
-        } else {
-          let fiber = fiberNode.return && fiberNode.return.stateNode && fiberNode.return.stateNode._reactInternalFiber;
-          if (fiber) return createElemForComponent(elem, fiber.type.name);
+    let { name, uid } = getComponentObj(elem);
+
+    if (name) {
+      if (uid) {
+        if (!uids.includes(uid)) {
+          uids.push(uid);
+          return createElemForComponent(elem, name);
         }
+      } else {
+        return createElemForComponent(elem, name);
       }
     }
     return null;
   };
 };
+
+const addAsoluteComponentPath = function(elem, xrayReactElem) {
+  let originElem = elem;
+  let structure = xrayReactElem.getAttribute('data-xray-react-element-name') || '';
+  while (elem.parentNode) {
+    elem = elem.parentNode;
+    let { name: component } = getComponentObj(elem);
+    if (component) structure = component + ' -> ' + structure;
+  }
+  xrayReactElem.setAttribute('data-xray-react-components-path', structure);
+};
+
+const onXrayReactMouseover = function(event) {
+  let { target } = event;
+  if (target.classList.contains(constants.xrayReactElemCN)) {
+    let componentsPath = target.getAttribute('data-xray-react-components-path') || '';
+    document.querySelector('.xray-react-actions-wrapper .components-path').innerHTML = componentsPath;
+  }
+}
 
 const toggleXrayReact = function(enable) {
   let body = document.body;
@@ -68,21 +99,26 @@ const toggleXrayReact = function(enable) {
     if (xrayReactElementsWrapper) xrayReactElementsWrapper.remove();
     if (xrayReactActionBar) xrayReactActionBar.remove();
     if (xrayReactStyleTag) xrayReactStyleTag.remove();
+    body.removeEventListener('mouseover', onXrayReactMouseover);
   } else {
     body.classList.add('xray-react-enabled');
-    let xrayReactElements = [];
+    let xrayReactObjects = [];
     let searchAndCreateComponent = searchAndCreateComponentCached();
     for (let elem of body.getElementsByTagName('*')) {
-      let xrayReactElem = searchAndCreateComponent(elem);
-      if (xrayReactElem) xrayReactElements.push(xrayReactElem);
+      let xrayReactObj = searchAndCreateComponent(elem);
+      if (xrayReactObj) xrayReactObjects.push(xrayReactObj);
+    }
+    for (let { elem, xrayReactElem } of xrayReactObjects) {
+      addAsoluteComponentPath(elem, xrayReactElem);
     }
     let xrayReactElementsWrapper = document.createElement('div');
     xrayReactElementsWrapper.className = constants.xrayReactWrapperCN;
-    xrayReactElementsWrapper.append(...xrayReactElements);
+    xrayReactElementsWrapper.append(...xrayReactObjects.map(obj => obj.xrayReactElem));
     body.append(xrayReactElementsWrapper);
     document.head.insertAdjacentHTML('beforeend', partials.styleTag);
     body.insertAdjacentHTML('beforeend', partials.actionBar);
     document.getElementById('search-component').addEventListener('input', handleSearchChange);
+    body.addEventListener('mouseover', onXrayReactMouseover);
   }
 };
 
