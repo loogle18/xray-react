@@ -5,7 +5,7 @@ const actionBar = `
   <div class="xray-react-action-bar">
     <div class="xray-react-actions-wrapper">
       <input id="search-component" type="text" placeholder="Search component by name..."/>
-      <div class="settings"></div>
+      <div class="components-path"></div>
     </div>
   </div>
 `;

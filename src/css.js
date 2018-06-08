@@ -80,13 +80,16 @@ module.exports = `
     background-color: lightgray;
     border-radius: 3px;
     border: 0;
-    flex-grow: 1;
     font-size: 14px;
+    margin-right: 10px;
     outline: 0;
     padding: 5px 10px;
+    width: 50%;
   }
-  .settings {
-    margin-left: 20px;
-    min-width: 320px;
+  .components-path {
+    color: cyan;
+    font-size: 12px;
+    margin-left: 10px;
+    width: 50%;
   }
 `;
