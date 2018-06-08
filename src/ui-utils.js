@@ -78,13 +78,13 @@ const addAsoluteComponentPath = function(elem, xrayReactElem) {
     let { name: component } = getComponentObj(elem);
     if (component) structure = component + ' -> ' + structure;
   }
-  xrayReactElem.setAttribute('data-xray-react-components-path', structure);
+  xrayReactElem.setAttribute(constants.xrayReactCompPathAttr, structure);
 };
 
 const onXrayReactMouseover = function(event) {
   let { target } = event;
   if (target.classList.contains(constants.xrayReactElemCN)) {
-    let componentsPath = target.getAttribute('data-xray-react-components-path') || '';
+    let componentsPath = target.getAttribute(constants.xrayReactCompPathAttr) || '';
     document.querySelector('.xray-react-actions-wrapper .components-path').innerHTML = componentsPath;
   }
 }
