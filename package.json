@@ -1,12 +1,12 @@
 {
   "name": "xray-react",
-  "version": "0.4.4",
+  "version": "0.4.7",
   "description": "React layout debugger inspired by Xray-rails.",
   "main": "index.js",
   "scripts": {
     "dev": "node index.js",
     "build": "rollup -c",
-    "publish": "rollup -c"
+    "prepublish": "rollup -c"
   },
   "engines": {
     "node": ">=6.0.0"
