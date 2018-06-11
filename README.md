@@ -44,6 +44,6 @@ Arguments
 import 'xray-react/lib/xray-react-ui';
 ```
 
-Press **ctrl+x+r** to toggle xray-react ui
+Press **shift+x+r** to toggle xray-react ui
 
 ![Example](media/example.gif)
