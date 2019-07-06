@@ -6,5 +6,6 @@ const zIndex = 10000;
 module.exports = {
   xrayReactElemCN,
   xrayReactWrapperCN,
+  xrayReactCompPathAttr,
   zIndex
 };
